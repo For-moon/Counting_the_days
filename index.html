@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ngày Yêu Nhau - Kỷ Niệm Của Chúng Ta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LỚP DƯỚI: Album ảnh & Khu vực Upload ảnh -->
+  <main class="gallery-panel" id="gallery-panel" aria-label="Album ảnh kỷ niệm">
+    <header class="gallery-header">
+      <div class="gallery-title-wrap">
+        <h2>Khoảnh Khắc Yêu Thương</h2>
+        <p class="gallery-subtitle" id="gallery-counter">Đang tải danh sách ảnh...</p>
+      </div>
+      <div class="gallery-actions">
+        <button class="btn-icon" id="refresh-btn" title="Làm mới danh sách">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+        <button class="btn-close" id="close-doors-btn" title="Khép lại màn hình chính">
+          <span>&times;</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Khu vực Tải ảnh lên (Upload Dropzone) -->
+    <section class="upload-section">
+      <div class="upload-date-bar">
+        <label for="taken-date-input" class="date-label">
+          <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Ngày chụp ảnh:</span>
+        </label>
+        <input type="date" id="taken-date-input" class="date-input" title="Chọn ngày chụp ảnh kỷ niệm">
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="file-input" accept="image/*" multiple hidden>
+        <div class="dropzone-content">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <div class="dropzone-text">
+            <p class="dropzone-title">
+              <span class="desktop-text">Kéo thả ảnh vào đây hoặc <span class="browse-link">chọn ảnh từ máy</span></span>
+              <span class="mobile-text">📷 Chạm để <span class="browse-link">tải ảnh từ thư viện</span></span>
+            </p>
+            <p class="dropzone-hint">Ảnh sẽ được nén và tự động chuyển sang <strong>.WebP</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thông báo trạng thái upload -->
+      <div class="upload-status" id="upload-status" hidden>
+        <div class="status-spinner" id="status-spinner"></div>
+        <p class="status-msg" id="status-msg">Đang xử lý...</p>
+      </div>
+    </section>
+
+    <!-- Danh sách lưới ảnh -->
+    <section class="photo-section">
+      <div class="photo-grid" id="photo-grid">
+        <!-- Render bằng script.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- LỚP TRÊN: Hai cánh cửa mở đôi (Nửa ảnh & Nửa đếm ngày) -->
+  <div class="doors-wrapper" id="doors-wrapper">
+    
+    <!-- CÁNH TRÁI: Nửa ảnh Slideshow + TRÁI TIM SVG ĐẬP -->
+    <div class="door-half image-half" id="image-half">
+      <div class="image-slideshow" id="image-wrap">
+        <!-- Hai lớp ảnh tạo hiệu ứng crossfade -->
+      </div>
+      
+      <!-- NÚT TRÁI TIM SVG ĐẬP Ở RANH GIỚI GIỮA 2 NỬA -->
+      <button class="heart-trigger" id="heart-btn" aria-label="Mở album kỷ niệm" title="Bấm vào để mở Album ảnh">
+        <div class="heart-pulse-glow"></div>
+        <svg class="heart-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff4b72" />
+              <stop offset="50%" stop-color="#e62758" />
+              <stop offset="100%" stop-color="#b00e39" />
+            </linearGradient>
+            <filter id="heartShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(230, 39, 88, 0.45)"/>
+            </filter>
+          </defs>
+          <path class="heart-path" filter="url(#heartShadow)" fill="url(#heartGrad)" d="M50,88.5 C48.5,88.5 15,62.5 15,35.5 C15,21.5 25.5,12 37.5,12 C44.5,12 48.5,16 50,18.5 C51.5,16 55.5,12 62.5,12 C74.5,12 85,21.5 85,35.5 C85,62.5 51.5,88.5 50,88.5 Z" />
+          <path class="heart-highlight" fill="rgba(255,255,255,0.35)" d="M30,22 C23,24 20,31 20,38 C20,40 21,41 22,40 C23,39 24,33 29,27 C32,24 35,22 34,21 C33,20 31,21 30,22 Z" />
+        </svg>
+        <span class="heart-tooltip">Mở Album</span>
+      </button>
+    </div>
+
+    <!-- CÁNH PHẢI: Nửa thông tin đếm ngày -->
+    <div class="door-half info-half" id="info-half">
+      <!-- Chỉ báo click khép lại khi hé mở dải viền -->
+      <div class="peek-tab-indicator" aria-hidden="true" title="Khép lại">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </div>
+
+      <div class="info-content">
+        <p class="love-quote">Đã cùng nhau đi qua</p>
+        <p class="day-number">
+          <span id="day-count">0</span>
+          <span class="unit">ngày</span>
+        </p>
+        <p class="start-date">Kể từ ngày <strong>05.02.2024</strong></p>
+        <div class="click-hint">
+          <span class="hint-dot"></span> Chạm vào trái tim để mở Album kỷ niệm
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL: Phóng to ảnh -->
+  <div class="lightbox-modal" id="lightbox-modal" hidden>
+    <button class="lightbox-close" id="lightbox-close" title="Đóng">&times;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="Ảnh kỷ niệm">
+      <div class="lightbox-footer">
+        <p class="lightbox-caption" id="lightbox-caption"></p>
+        <button class="lightbox-delete-btn" id="lightbox-delete-btn" title="Xóa ảnh này">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Xóa ảnh</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

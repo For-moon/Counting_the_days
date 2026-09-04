@@ -1,0 +1,12 @@
+name = "dem-ngay-yeu-backend"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Cấu hình Cloudflare R2 Bucket
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "dem-ngay-yeu-photos"
+
+# Hướng dẫn thêm khóa TinyPNG:
+# Chạy câu lệnh sau trong terminal để lưu khóa bảo mật:
+# npx wrangler secret put TINYPNG_API_KEY
