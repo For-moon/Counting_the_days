@@ -31,7 +31,7 @@ cd c:/Developer/html/moon/Dem_ngay_yeu/worker
 npx wrangler login
 
 # Thêm khóa bí mật TinyPNG API Key vào Worker
-npx wrangler secret put RVZb6q3XbrNGwXtDrXKGLdxf9k5YG09w
+npx wrangler secret put API
 # (Dán API Key bạn nhận được từ TinyPNG vào và nhấn Enter)
 
 # Triển khai Worker lên mạng
